@@ -1,12 +1,13 @@
 package com.example.android.softpaper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.view.View;
 
+import android.view.View;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,20 +63,24 @@ public class LoginActivity extends AppCompatActivity {
     /* Compare retrieved password to entered password */
     public void comparePassword(View view){
         String enteredPassword = password.getText().toString();
-        /* If password never set before, write new password to file and launch the viewNotes Activity */
+        /* If password never set before, write new password to file and launch the ViewNotes Activity */
         if (presetPassphrase == null){
             try{
                 outputStream = openFileOutput(filename_password, Context.MODE_PRIVATE);
                 outputStream.write(enteredPassword.getBytes());
                 outputStream.close();
-                //Launch viewNotes Activity here
+                /* Launch ViewNotes Activity */
+                Intent launchViewNotesIntent = new Intent(this, ViewNotes.class);
+                startActivity(launchViewNotesIntent);
             }catch(Exception e) {
                 e.printStackTrace();
             }
         }
         else{
             if (enteredPassword.equals(presetPassphrase)){
-                //Launch viewNotes Activity
+                /* Launch ViewNotes Activity */
+                Intent launchViewNotesIntent = new Intent(this, ViewNotes.class);
+                startActivity(launchViewNotesIntent);
             }
             /* else display error message */
             else{

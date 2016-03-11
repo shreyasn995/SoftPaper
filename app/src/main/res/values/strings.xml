@@ -4,4 +4,6 @@
     <string name="login_loginPrompt">Login to get started</string>
     <string name="login_loginInfo">If this is your first time here, enter a passphrase and click LOGIN to set your login credentials.</string>
     <string name="login_loginButton">Login</string>
+    <string name="title_activity_view_notes">ViewNotes</string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -68,8 +68,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/text.loginError"
+        android:layout_marginBottom="47dp"
+        android:textColor="@android:color/holo_red_dark"
         android:layout_above="@+id/text.loginInfo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="38dp"
-        android:textColor="@android:color/holo_red_dark" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
