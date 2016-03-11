@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Good "
+        android:text="@string/login_welcomeText"
         android:id="@+id/text.welcomeText"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Login to get started"
+        android:text="@string/login_loginPrompt"
         android:id="@+id/text.loginPrompt"
         android:layout_marginTop="25dp"
         android:textColor="@android:color/holo_blue_dark"
@@ -34,11 +34,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/login_loginButton"
         android:id="@+id/button.login"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="144dp" />
+        android:layout_marginBottom="144dp"
+        android:onClick="comparePassword"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -53,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="If this is your first time here, enter a login password to get started."
+        android:text="@string/login_loginInfo"
         android:id="@+id/text.loginInfo"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
@@ -61,4 +62,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/text.loginError"
+        android:layout_above="@+id/text.loginInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp"
+        android:textColor="@android:color/holo_red_dark" />
 </RelativeLayout>
