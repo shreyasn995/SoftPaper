@@ -38,12 +38,25 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <!-- FAB visible on the view notes tab. It launches the CreateNote Activity -->
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_Tab1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_white_36dp" />
+        android:src="@drawable/ic_add_white_36dp"
+        android:onClick="launchNewNoteActivity" />
+
+    <!-- FAB visible on the view check lists tab. It launches the CreateList Activity -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_Tab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_white_36dp"
+        android:visibility="gone"
+        android:onClick="launchNewListActivity" />
 
 </android.support.design.widget.CoordinatorLayout>

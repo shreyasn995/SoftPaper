@@ -23,6 +23,9 @@ import android.widget.Toast;
 
 public class ViewNotes extends AppCompatActivity {
 
+    FloatingActionButton fab1;
+    FloatingActionButton fab2;
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -45,7 +48,7 @@ public class ViewNotes extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
+        // Create the adapter that will return a fragment for each of the two
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -56,17 +59,73 @@ public class ViewNotes extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
+        fab1 = (FloatingActionButton) findViewById(R.id.fab_Tab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab_Tab2);
+
+        /**
+         * Change Floating Action Buttons on switching between tabs.
+         * fab1 launches the CreateNote Activity to create a new note
+         * fab2 launches the CreateList Activity to create a new checked list
+         */
+        tabLayout.setOnTabSelectedListener(
+                new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        int tabPosition = tab.getPosition();
+                        switch (tabPosition){
+                            case 0:
+                                fab2.hide();
+                                fab1.show();
+                                break;
+                            case 1:
+                                fab1.hide();
+                                fab2.show();
+                                break;
+
+                            default:
+                                fab2.hide();
+                                fab2.show();
+                                break;
+                        }
+                    }
         });
 
-    }
+        /**
+         * Change Floating Action Buttons on swiping between screens.
+         * fab1 launches the CreateNote Activity to create a new note
+         * fab2 launches the CreateList Activity to create a new checked list
+         */
+        ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int tabPosition, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int tabPosition) {
+                switch (tabPosition){
+                    case 0:
+                        fab1.show();
+                        fab2.hide();
+                        break;
+                    case 1:
+                        fab1.hide();
+                        fab2.show();
+                        break;
+
+                    default:
+                        fab1.show();
+                        fab2.hide();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        };
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -144,7 +203,7 @@ public class ViewNotes extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 2 total pages.
             return 2;
         }
 
@@ -155,11 +214,19 @@ public class ViewNotes extends AppCompatActivity {
                     return "Notes";
                 case 1:
                     return "Check Lists";
-                /*case 2:
-                    return "SECTION 3";*/
             }
             return null;
         }
+    }
+
+    public void launchNewNoteActivity (View view){
+        Intent launchNewNoteIntent = new Intent(this, NewNoteActivity.class);
+        startActivity(launchNewNoteIntent);
+    }
+
+    public void launchNewListActivity (View view){
+        Intent launchNewListIntent = new Intent(this, NewListActivity.class);
+        startActivity(launchNewListIntent);
     }
 
     /**
