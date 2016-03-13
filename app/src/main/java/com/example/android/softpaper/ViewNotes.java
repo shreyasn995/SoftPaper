@@ -66,11 +66,17 @@ public class ViewNotes extends AppCompatActivity {
          * Change Floating Action Buttons on switching between tabs.
          * fab1 launches the CreateNote Activity to create a new note
          * fab2 launches the CreateList Activity to create a new checked list
+         *
+         * Code for switching tabs sourced from:
+         * Toro, J (2013) onTabSelected Selected Not Called [Computer Code Snippet].
+         * http://stackoverflow.com/questions/30904265/ontabselected-selected-not-called.
+         * Accessed 13 March 2016.
          */
         tabLayout.setOnTabSelectedListener(
                 new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
+                        super.onTabSelected(tab);
                         int tabPosition = tab.getPosition();
                         switch (tabPosition){
                             case 0:
@@ -89,42 +95,6 @@ public class ViewNotes extends AppCompatActivity {
                         }
                     }
         });
-
-        /**
-         * Change Floating Action Buttons on swiping between screens.
-         * fab1 launches the CreateNote Activity to create a new note
-         * fab2 launches the CreateList Activity to create a new checked list
-         */
-        ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int tabPosition, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int tabPosition) {
-                switch (tabPosition){
-                    case 0:
-                        fab1.show();
-                        fab2.hide();
-                        break;
-                    case 1:
-                        fab1.hide();
-                        fab2.show();
-                        break;
-
-                    default:
-                        fab1.show();
-                        fab2.hide();
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        };
     }
 
     @Override
@@ -175,8 +145,7 @@ public class ViewNotes extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_view_notes, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
@@ -219,6 +188,9 @@ public class ViewNotes extends AppCompatActivity {
         }
     }
 
+    /**
+     * Add comments
+     */
     public void launchNewNoteActivity (View view){
         Intent launchNewNoteIntent = new Intent(this, NewNoteActivity.class);
         startActivity(launchNewNoteIntent);
@@ -232,26 +204,23 @@ public class ViewNotes extends AppCompatActivity {
     /**
      * Back button listener.
      * Will close the application if the back button pressed twice.
+     * App will not got to the login screen if back button pressed. Instead the user will exit the app.
      *
+     * Code sourced from:
      * Spreys, V (2013) android pressing back button should exit the app [Computer Code Snippet].
      * Available at http://stackoverflow.com/questions/2354336/android-pressing-back-button-should-exit-the-app.
      * Accessed 13 March 2016.
-     *
-     * App will not got to the login screen if back button pressed. Instead the user will exit the app.
      */
     int backButtonCount = 0;
     @Override
-    public void onBackPressed()
-    {
-        if(backButtonCount >= 1)
-        {
+    public void onBackPressed() {
+        if(backButtonCount >= 1) {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
-        else
-        {
+        else {
             Toast.makeText(this, "Press back again to close the app", Toast.LENGTH_SHORT).show();
             backButtonCount++;
         }
