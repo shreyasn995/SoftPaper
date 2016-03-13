@@ -1,5 +1,6 @@
 package com.example.android.softpaper;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewNotes extends AppCompatActivity {
 
@@ -157,6 +159,34 @@ public class ViewNotes extends AppCompatActivity {
                     return "SECTION 3";*/
             }
             return null;
+        }
+    }
+
+    /**
+     * Back button listener.
+     * Will close the application if the back button pressed twice.
+     *
+     * Spreys, V (2013) android pressing back button should exit the app [Computer Code Snippet].
+     * Available at http://stackoverflow.com/questions/2354336/android-pressing-back-button-should-exit-the-app.
+     * Accessed 13 March 2016.
+     *
+     * App will not got to the login screen if back button pressed. Instead the user will exit the app.
+     */
+    int backButtonCount = 0;
+    @Override
+    public void onBackPressed()
+    {
+        if(backButtonCount >= 1)
+        {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this, "Press back again to close the app", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
         }
     }
 }
