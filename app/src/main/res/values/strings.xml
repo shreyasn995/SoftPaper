@@ -9,7 +9,7 @@
     <string name="action_settings">About</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_new_note">New Note</string>
-    <string name="title_activity_new_list">New Checked List</string>
-    <string name="newNote_title">Enter Title</string>
-    <string name="newNote_note">Start typing here</string>
+    <string name="title_activity_new_list">New List</string>
+    <string name="newNote_title">Title</string>
+    <string name="newNote_note">Touch here to type</string>
 </resources>
