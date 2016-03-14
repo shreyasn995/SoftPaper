@@ -27,9 +27,9 @@ public class NewListActivity extends AppCompatActivity {
 
     final TextView[] listTextView = new TextView[25];
     final CheckBox[] listCheckBox = new CheckBox[25];
-    int noOfTextBox = 1;
+    int noOfTextBox = 0;
 
-    static final String filename = "notesFile";
+    static final String filename = "listsFile";
     FileOutputStream outputStream;
     File listsFile;
 
@@ -38,14 +38,16 @@ public class NewListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_list);
 
-        title = (EditText) findViewById(R.id.edit_newListTitle);
+        title = (EditText) findViewById(R.id.edit_listTitle);
         list1 = (EditText) findViewById(R.id.edit_List1);
         box1 = (CheckBox) findViewById(R.id.check_List1);
         fab = (FloatingActionButton) findViewById(R.id.listFab);
 
+        linear = (LinearLayout)findViewById(R.id.addToList);
         listsFile = new File(getFilesDir(), filename);
 
-        linear = (LinearLayout)findViewById(R.id.addToList);
+        listTextView[0] = list1;
+        listCheckBox[0] = box1;
     }
 
     @Override
@@ -64,13 +66,33 @@ public class NewListActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
-
+            Intent launchAboutActivityIntent = new Intent(this, AboutActivity.class);
+            startActivity(launchAboutActivityIntent);
             return true;
         }
 
         if (id == R.id.action_save) {
+            String textBuffer = "`";
+            textBuffer += "`";
+            textBuffer += title.getText().toString();
+            textBuffer += "\n";
 
+            for (int i=0; i <= noOfTextBox; i++){
+                textBuffer += listTextView[i].getText().toString();
+                textBuffer += "\n";
+                if (listCheckBox[i].isChecked()) textBuffer += "1"; else textBuffer += "0";
+                textBuffer += "\n";
+            }
 
+            try {
+                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                outputStream.write(textBuffer.getBytes());
+                outputStream.close();
+                Toast.makeText(this, "List saved", Toast.LENGTH_SHORT).show();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            finish();
             return true;
         }
 
