@@ -2,12 +2,16 @@ package com.example.android.softpaper;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -17,32 +21,13 @@ public class NewListActivity extends AppCompatActivity {
 
     EditText title;
     EditText list1;
-    EditText list2;
-    EditText list3;
-    EditText list4;
-    EditText list5;
-    EditText list6;
-    EditText list7;
-    EditText list8;
-    EditText list9;
-    EditText list10;
-    EditText list11;
-    EditText list12;
-    EditText list13;
-
     CheckBox box1;
-    CheckBox box2;
-    CheckBox box3;
-    CheckBox box4;
-    CheckBox box5;
-    CheckBox box6;
-    CheckBox box7;
-    CheckBox box8;
-    CheckBox box9;
-    CheckBox box10;
-    CheckBox box11;
-    CheckBox box12;
-    CheckBox box13;
+    FloatingActionButton fab;
+    LinearLayout linear;
+
+    final TextView[] listTextView = new TextView[25];
+    final CheckBox[] listCheckBox = new CheckBox[25];
+    int noOfTextBox = 1;
 
     static final String filename = "notesFile";
     FileOutputStream outputStream;
@@ -55,34 +40,12 @@ public class NewListActivity extends AppCompatActivity {
 
         title = (EditText) findViewById(R.id.edit_newListTitle);
         list1 = (EditText) findViewById(R.id.edit_List1);
-        list2 = (EditText) findViewById(R.id.edit_List2);
-        list3 = (EditText) findViewById(R.id.edit_List3);
-        list4 = (EditText) findViewById(R.id.edit_List4);
-        list5 = (EditText) findViewById(R.id.edit_List5);
-        list6 = (EditText) findViewById(R.id.edit_List6);
-        list7 = (EditText) findViewById(R.id.edit_List7);
-        list8 = (EditText) findViewById(R.id.edit_List8);
-        list9 = (EditText) findViewById(R.id.edit_List9);
-        list10 = (EditText) findViewById(R.id.edit_List10);
-        list11 = (EditText) findViewById(R.id.edit_List11);
-        list12 = (EditText) findViewById(R.id.edit_List12);
-        list13 = (EditText) findViewById(R.id.edit_List13);
-
         box1 = (CheckBox) findViewById(R.id.check_List1);
-        box2 = (CheckBox) findViewById(R.id.check_List2);
-        box3 = (CheckBox) findViewById(R.id.check_List3);
-        box4 = (CheckBox) findViewById(R.id.check_List4);
-        box5 = (CheckBox) findViewById(R.id.check_List5);
-        box6 = (CheckBox) findViewById(R.id.check_List6);
-        box7 = (CheckBox) findViewById(R.id.check_List7);
-        box8 = (CheckBox) findViewById(R.id.check_List8);
-        box9 = (CheckBox) findViewById(R.id.check_List9);
-        box10 = (CheckBox) findViewById(R.id.check_List10);
-        box11 = (CheckBox) findViewById(R.id.check_List11);
-        box12 = (CheckBox) findViewById(R.id.check_List12);
-        box13 = (CheckBox) findViewById(R.id.check_List13);
+        fab = (FloatingActionButton) findViewById(R.id.listFab);
 
         listsFile = new File(getFilesDir(), filename);
+
+        linear = (LinearLayout)findViewById(R.id.addToList);
     }
 
     @Override
@@ -101,81 +64,12 @@ public class NewListActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
-            Intent launchAboutActivityIntent = new Intent(this, AboutActivity.class);
-            startActivity(launchAboutActivityIntent);
+
             return true;
         }
 
         if (id == R.id.action_save) {
-            String textBuffer = title.getText().toString();
-            textBuffer += "\n";
 
-            textBuffer += list1.getText().toString();
-            textBuffer += "\n";
-            if (box1.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list2.getText().toString();
-            textBuffer += "\n";
-            if (box2.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list3.getText().toString();
-            textBuffer += "\n";
-            if (box3.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list4.getText().toString();
-            textBuffer += "\n";
-            if (box4.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list5.getText().toString();
-            textBuffer += "\n";
-            if (box5.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list6.getText().toString();
-            textBuffer += "\n";
-            if (box1.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list6.getText().toString();
-            textBuffer += "\n";
-            if (box1.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list7.getText().toString();
-            textBuffer += "\n";
-            if (box7.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list8.getText().toString();
-            textBuffer += "\n";
-            if (box8.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list9.getText().toString();
-            textBuffer += "\n";
-            if (box9.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list10.getText().toString();
-            textBuffer += "\n";
-            if (box10.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list11.getText().toString();
-            textBuffer += "\n";
-            if (box11.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list12.getText().toString();
-            textBuffer += "\n";
-            if (box12.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-            textBuffer += list13.getText().toString();
-            textBuffer += "\n";
-            if (box13.isChecked()) textBuffer += "0"; else textBuffer += "1";
-            textBuffer += "\n";
-
-            try {
-                outputStream = openFileOutput(filename, Context.MODE_APPEND);
-                outputStream.write(textBuffer.getBytes());
-                outputStream.close();
-                Toast.makeText(this, "List saved", Toast.LENGTH_SHORT).show();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            finish();
 
             return true;
         }
@@ -186,5 +80,24 @@ public class NewListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addToList(View view){
+        LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        noOfTextBox++;
+
+        CheckBox checkBox = new CheckBox(this);
+        checkBox.setText("");
+
+        EditText editText = new EditText(this);
+        editText.setLayoutParams(lparams);
+        editText.setHint("Touch here to type");
+
+        listCheckBox[noOfTextBox] = checkBox;
+        listTextView[noOfTextBox] = editText;
+
+        linear.addView(checkBox);
+        linear.addView(editText);
     }
 }
