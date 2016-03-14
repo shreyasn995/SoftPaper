@@ -9,8 +9,16 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_new_note">New Note</string>
     <string name="title_activity_new_list">New List</string>
+    <string name="title_activity_about">About</string>
     <string name="newNote_title">Title</string>
     <string name="newNote_note">Touch here to type</string>
+    <string name="about_about">About SoftPaper</string>
+    <string name="about_info">
+        SoftPaper is an app to save notes and check lists.
+        \n\nCOMP2100 Assignment 1 2016.
+        \n\nShreyas Nagarajappa, The Australian National University.
+        \n\nAll rights reserved.
+    </string>
     <string name="action_save">Save</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>

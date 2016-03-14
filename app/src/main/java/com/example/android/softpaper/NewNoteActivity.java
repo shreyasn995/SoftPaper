@@ -1,24 +1,34 @@
 package com.example.android.softpaper;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class NewNoteActivity extends AppCompatActivity {
 
     EditText title;
     EditText note;
+    static final String filename = "notesFile";
+    FileOutputStream outputStream;
+    File notesFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
 
-        title = (EditText) findViewById(R.id.edit_newNoteTitle);
+        title = (EditText) findViewById(R.id.edit_newListTitle);
         note = (EditText) findViewById(R.id.edit_newNoteNote);
+
+        notesFile = new File(getFilesDir(), filename);
 
         /**
          * Get intent, action and MIME type.
@@ -32,9 +42,6 @@ public class NewNoteActivity extends AppCompatActivity {
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
                 handleSendText(intent); // Handle text being sent
-            }
-            else {
-                // Handle other intents, such as being started from the home screen
             }
         }
     }
@@ -56,14 +63,31 @@ public class NewNoteActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
+            Intent launchAboutActivityIntent = new Intent(this, AboutActivity.class);
+            startActivity(launchAboutActivityIntent);
             return true;
         }
 
         if (id == R.id.action_save) {
+            String textBuffer = "`";
+            textBuffer += title.getText().toString();
+            textBuffer += "\n";
+            textBuffer += note.getText().toString();
+            textBuffer += "\n";
+            try {
+                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                outputStream.write(textBuffer.getBytes());
+                outputStream.close();
+                Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            finish();
             return true;
         }
 
         if (id == R.id.action_delete) {
+            finish();
             return true;
         }
 

@@ -26,14 +26,20 @@
         <activity
             android:name=".NewNoteActivity"
             android:label="@string/title_activity_new_note"
-            android:parentActivityName=".ViewNotes" >
+            android:parentActivityName=".ViewNotes">
+
             <!-- Service to receive plain text from other apps -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" />
     </application>
 
 </manifest>

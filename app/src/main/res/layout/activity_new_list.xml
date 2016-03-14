@@ -9,4 +9,266 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.android.softpaper.NewListActivity">
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_newListTitle"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/newNote_title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="28dp"
+        android:maxLines="1" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List1"
+        android:layout_below="@+id/edit_newListTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List2"
+        android:layout_below="@+id/check_List1"
+        android:layout_alignRight="@+id/check_List1"
+        android:layout_alignEnd="@+id/check_List1"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List3"
+        android:layout_below="@+id/check_List2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List4"
+        android:layout_below="@+id/check_List3"
+        android:layout_alignRight="@+id/check_List3"
+        android:layout_alignEnd="@+id/check_List3"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List5"
+        android:layout_below="@+id/check_List4"
+        android:layout_alignRight="@+id/check_List4"
+        android:layout_alignEnd="@+id/check_List4"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List6"
+        android:layout_below="@+id/check_List5"
+        android:layout_alignRight="@+id/check_List5"
+        android:layout_alignEnd="@+id/check_List5"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List7"
+        android:layout_below="@+id/check_List6"
+        android:layout_alignRight="@+id/check_List6"
+        android:layout_alignEnd="@+id/check_List6"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List8"
+        android:layout_below="@+id/check_List7"
+        android:layout_alignRight="@+id/check_List7"
+        android:layout_alignEnd="@+id/check_List7"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List9"
+        android:layout_below="@+id/check_List8"
+        android:layout_alignRight="@+id/check_List8"
+        android:layout_alignEnd="@+id/check_List8"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List10"
+        android:layout_below="@+id/check_List9"
+        android:layout_alignRight="@+id/check_List9"
+        android:layout_alignEnd="@+id/check_List9"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List11"
+        android:layout_below="@+id/check_List10"
+        android:layout_alignRight="@+id/check_List10"
+        android:layout_alignEnd="@+id/check_List10"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List12"
+        android:layout_below="@+id/check_List11"
+        android:layout_alignRight="@+id/check_List11"
+        android:layout_alignEnd="@+id/check_List11"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_List13"
+        android:layout_below="@+id/check_List12"
+        android:layout_alignRight="@+id/check_List12"
+        android:layout_alignEnd="@+id/check_List12"
+        android:checked="false" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List1"
+        android:layout_above="@+id/check_List2"
+        android:layout_toRightOf="@+id/check_List1"
+        android:layout_marginLeft="34dp"
+        android:layout_marginStart="34dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List2"
+        android:layout_alignBottom="@+id/check_List2"
+        android:layout_alignLeft="@+id/edit_List1"
+        android:layout_alignStart="@+id/edit_List1"
+        android:layout_alignRight="@+id/edit_List1"
+        android:layout_alignEnd="@+id/edit_List1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List3"
+        android:layout_above="@+id/check_List4"
+        android:layout_alignLeft="@+id/edit_List2"
+        android:layout_alignStart="@+id/edit_List2"
+        android:layout_alignRight="@+id/edit_List2"
+        android:layout_alignEnd="@+id/edit_List2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List4"
+        android:layout_above="@+id/check_List5"
+        android:layout_alignLeft="@+id/edit_List3"
+        android:layout_alignStart="@+id/edit_List3"
+        android:layout_alignRight="@+id/edit_List3"
+        android:layout_alignEnd="@+id/edit_List3" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List5"
+        android:layout_above="@+id/check_List6"
+        android:layout_alignLeft="@+id/edit_List4"
+        android:layout_alignStart="@+id/edit_List4"
+        android:layout_alignRight="@+id/edit_List4"
+        android:layout_alignEnd="@+id/edit_List4" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List6"
+        android:layout_above="@+id/check_List7"
+        android:layout_alignLeft="@+id/edit_List5"
+        android:layout_alignStart="@+id/edit_List5"
+        android:layout_alignRight="@+id/edit_List5"
+        android:layout_alignEnd="@+id/edit_List5" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List7"
+        android:layout_above="@+id/check_List8"
+        android:layout_alignLeft="@+id/edit_List6"
+        android:layout_alignStart="@+id/edit_List6"
+        android:layout_alignRight="@+id/edit_List6"
+        android:layout_alignEnd="@+id/edit_List6" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List8"
+        android:layout_above="@+id/check_List9"
+        android:layout_alignLeft="@+id/edit_List7"
+        android:layout_alignStart="@+id/edit_List7"
+        android:layout_alignRight="@+id/edit_List7"
+        android:layout_alignEnd="@+id/edit_List7" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List9"
+        android:layout_above="@+id/check_List10"
+        android:layout_alignLeft="@+id/edit_List8"
+        android:layout_alignStart="@+id/edit_List8"
+        android:layout_alignRight="@+id/edit_List8"
+        android:layout_alignEnd="@+id/edit_List8" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List10"
+        android:layout_above="@+id/check_List11"
+        android:layout_alignLeft="@+id/edit_List9"
+        android:layout_alignStart="@+id/edit_List9"
+        android:layout_alignRight="@+id/edit_List9"
+        android:layout_alignEnd="@+id/edit_List9" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List11"
+        android:layout_above="@+id/check_List12"
+        android:layout_alignLeft="@+id/edit_List10"
+        android:layout_alignStart="@+id/edit_List10"
+        android:layout_alignRight="@+id/edit_List10"
+        android:layout_alignEnd="@+id/edit_List10" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List12"
+        android:layout_above="@+id/check_List13"
+        android:layout_alignLeft="@+id/edit_List11"
+        android:layout_alignStart="@+id/edit_List11"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_List13"
+        android:layout_alignBottom="@+id/check_List13"
+        android:layout_alignLeft="@+id/edit_List12"
+        android:layout_alignStart="@+id/edit_List12"
+        android:layout_alignRight="@+id/edit_List12"
+        android:layout_alignEnd="@+id/edit_List12" />
+
+
 </RelativeLayout>
