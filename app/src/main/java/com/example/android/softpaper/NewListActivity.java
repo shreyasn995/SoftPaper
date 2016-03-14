@@ -16,7 +16,7 @@ public class NewListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_view_notes, menu);
+        getMenuInflater().inflate(R.menu.menu_new_note_activity, menu);
         return true;
     }
 
@@ -28,7 +28,15 @@ public class NewListActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            return true;
+        }
+
+        if (id == R.id.action_save) {
+            return true;
+        }
+
+        if (id == R.id.action_delete) {
             return true;
         }
 
