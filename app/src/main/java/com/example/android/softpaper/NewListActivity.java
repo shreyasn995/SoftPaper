@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,9 +30,10 @@ public class NewListActivity extends AppCompatActivity {
     final CheckBox[] listCheckBox = new CheckBox[25];
     int noOfTextBox = 0;
 
-    static final String filename = "listsFile";
+    static final String filename = "savedLists";
     FileOutputStream outputStream;
     File listsFile;
+    File savedLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,10 @@ public class NewListActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.listFab);
 
         linear = (LinearLayout)findViewById(R.id.addToList);
-        listsFile = new File(getFilesDir(), filename);
+        savedLists = new File(getFilesDir(), filename);
 
-        listTextView[0] = list1;
-        listCheckBox[0] = box1;
+        listTextView[noOfTextBox] = list1;
+        listCheckBox[noOfTextBox] = box1;
     }
 
     @Override
@@ -72,10 +74,13 @@ public class NewListActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_save) {
-            String textBuffer = "`";
-            textBuffer += "`";
-            textBuffer += title.getText().toString();
-            textBuffer += "\n";
+            final String filenameList = title.getText().toString();
+            if (filenameList.equals("")){
+                Toast.makeText(this, "Enter title for the list", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            listsFile = new File(getFilesDir(), filenameList);
+            String textBuffer = "";
 
             for (int i=0; i <= noOfTextBox; i++){
                 textBuffer += listTextView[i].getText().toString();
@@ -85,14 +90,18 @@ public class NewListActivity extends AppCompatActivity {
             }
 
             try {
-                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                outputStream = openFileOutput(filenameList, Context.MODE_PRIVATE);
                 outputStream.write(textBuffer.getBytes());
+                outputStream.close();
+                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                outputStream.write(filenameList.getBytes());
                 outputStream.close();
                 Toast.makeText(this, "List saved", Toast.LENGTH_SHORT).show();
             }catch(Exception e){
                 e.printStackTrace();
             }
-            finish();
+            Intent viewNotesIntent = new Intent(this, ViewNotes.class);
+            startActivity(viewNotesIntent);
             return true;
         }
 
@@ -107,6 +116,8 @@ public class NewListActivity extends AppCompatActivity {
     public void addToList(View view){
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        if (noOfTextBox == 24) return;
         noOfTextBox++;
 
         CheckBox checkBox = new CheckBox(this);

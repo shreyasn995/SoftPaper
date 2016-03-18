@@ -25,6 +25,7 @@ public class ViewNotes extends AppCompatActivity {
 
     FloatingActionButton fab1;
     FloatingActionButton fab2;
+    int backButtonCount = 0;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -45,6 +46,8 @@ public class ViewNotes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_notes);
+
+        backButtonCount = 0;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -213,7 +216,6 @@ public class ViewNotes extends AppCompatActivity {
      * Available at http://stackoverflow.com/questions/2354336/android-pressing-back-button-should-exit-the-app.
      * Accessed 13 March 2016.
      */
-    int backButtonCount = 0;
     @Override
     public void onBackPressed() {
         if(backButtonCount >= 1) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -19,9 +20,10 @@ public class NewNoteActivity extends AppCompatActivity {
 
     EditText title;
     EditText note;
-    static final String filename = "notesFile";
+    static final String filename = "savedNotes";
     FileOutputStream outputStream;
     File notesFile;
+    File savedNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class NewNoteActivity extends AppCompatActivity {
         title = (EditText) findViewById(R.id.edit_newListTitle);
         note = (EditText) findViewById(R.id.edit_newNoteNote);
 
-        notesFile = new File(getFilesDir(), filename);
+        savedNotes = new File(getFilesDir(), filename);
 
         /**
          * Get intent, action and MIME type.
@@ -72,20 +74,27 @@ public class NewNoteActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_save) {
-            String textBuffer = "`";
-            textBuffer += title.getText().toString();
-            textBuffer += "\n";
-            textBuffer += note.getText().toString();
-            textBuffer += "\n";
+            final String filenameNote = title.getText().toString();
+            if (filenameNote.equals("")){
+                Toast.makeText(this, "Enter title for the note", Toast.LENGTH_SHORT).show();
+                Log.i("SaveNote", "ToastDisplayed");
+                return true;
+            }
+            notesFile = new File(getFilesDir(), filenameNote);
+            String textBuffer = note.getText().toString();
             try {
-                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                outputStream = openFileOutput(filenameNote, Context.MODE_PRIVATE);
                 outputStream.write(textBuffer.getBytes());
+                outputStream.close();
+                outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                outputStream.write(filenameNote.getBytes());
                 outputStream.close();
                 Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
             }catch(Exception e){
                 e.printStackTrace();
             }
-            finish();
+            Intent viewNotesIntent = new Intent(this, ViewNotes.class);
+            startActivity(viewNotesIntent);
             return true;
         }
 
