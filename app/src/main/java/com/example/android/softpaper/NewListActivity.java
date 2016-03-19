@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,7 +99,7 @@ public class NewListActivity extends AppCompatActivity {
             }catch(Exception e){
                 e.printStackTrace();
             }
-            Intent viewNotesIntent = new Intent(this, ViewNotes.class);
+            Intent viewNotesIntent = new Intent(this, ViewNotesActivity.class);
             startActivity(viewNotesIntent);
             return true;
         }

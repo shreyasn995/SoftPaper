@@ -10,11 +10,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 
 public class NewNoteActivity extends AppCompatActivity {
 
@@ -74,7 +71,7 @@ public class NewNoteActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_save) {
-            final String filenameNote = title.getText().toString();
+            String filenameNote = title.getText().toString();
             if (filenameNote.equals("")){
                 Toast.makeText(this, "Enter title for the note", Toast.LENGTH_SHORT).show();
                 Log.i("SaveNote", "ToastDisplayed");
@@ -87,13 +84,14 @@ public class NewNoteActivity extends AppCompatActivity {
                 outputStream.write(textBuffer.getBytes());
                 outputStream.close();
                 outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                filenameNote += "\n";
                 outputStream.write(filenameNote.getBytes());
                 outputStream.close();
                 Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
             }catch(Exception e){
                 e.printStackTrace();
             }
-            Intent viewNotesIntent = new Intent(this, ViewNotes.class);
+            Intent viewNotesIntent = new Intent(this, ViewNotesActivity.class);
             startActivity(viewNotesIntent);
             return true;
         }

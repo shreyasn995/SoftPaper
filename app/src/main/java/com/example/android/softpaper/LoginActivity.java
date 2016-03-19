@@ -11,7 +11,6 @@ import android.view.View;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
@@ -63,14 +62,14 @@ public class LoginActivity extends AppCompatActivity {
     /* Compare retrieved password to entered password */
     public void comparePassword(View view){
         String enteredPassword = password.getText().toString();
-        /* If password never set before, write new password to file and launch the ViewNotes Activity */
+        /* If password never set before, write new password to file and launch the ViewNotesActivity Activity */
         if (presetPassphrase == null){
             try{
                 outputStream = openFileOutput(filename_password, Context.MODE_PRIVATE);
                 outputStream.write(enteredPassword.getBytes());
                 outputStream.close();
-                /* Launch ViewNotes Activity */
-                Intent launchViewNotesIntent = new Intent(this, ViewNotes.class);
+                /* Launch ViewNotesActivity Activity */
+                Intent launchViewNotesIntent = new Intent(this, ViewNotesActivity.class);
                 startActivity(launchViewNotesIntent);
             }catch(Exception e) {
                 e.printStackTrace();
@@ -78,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{
             if (enteredPassword.equals(presetPassphrase)){
-                /* Launch ViewNotes Activity */
-                Intent launchViewNotesIntent = new Intent(this, ViewNotes.class);
+                /* Launch ViewNotesActivity Activity */
+                Intent launchViewNotesIntent = new Intent(this, ViewNotesActivity.class);
                 startActivity(launchViewNotesIntent);
             }
             /* else display error message */
