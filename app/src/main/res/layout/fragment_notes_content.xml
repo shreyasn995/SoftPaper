@@ -18,14 +18,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit"
-            android:id="@+id/button_noteContentEdit" />
+            android:id="@+id/button_noteContentEdit"
+            android:onClick="editNote" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete"
-            android:id="@+id/button_noteContentDelete" />
+            android:id="@+id/button_noteContentDelete"
+            android:onClick="deleteNote" />
     </LinearLayout>
 
 </LinearLayout>
