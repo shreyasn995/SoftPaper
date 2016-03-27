@@ -10,4 +10,13 @@
     android:orientation="horizontal"
     tools:context=".ViewNotesActivity$ViewListsFragment">
 
+    <FrameLayout
+        android:id="@+id/child_fragment_list"
+        android:layout_width="150dp"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/child_fragment_list2"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

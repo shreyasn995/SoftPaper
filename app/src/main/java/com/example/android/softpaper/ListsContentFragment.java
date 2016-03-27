@@ -1,12 +1,9 @@
-/**
- * Shreyas Nagarajappa 2016, The Australian National University
- */
 package com.example.android.softpaper;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,36 +19,33 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 /**
- *This is a nested fragment within the ViewNotesFragment.
- * It appears to the right of the screen.
- * It displays the contents of the saved notes.
+ * Created by Shreyas on 27/03/2016.
  */
+public class ListsContentFragment extends Fragment {
 
-public class NotesContentFragment extends Fragment {
-
-    TextView noteContent;
+    TextView listContent;
     FileInputStream inputStream;
-    File savedNote;
+    File savedList;
     String filename;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_notes_content, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_lists_content, container, false);
 
-        noteContent = (TextView) rootView.findViewById(R.id.text_noteContent);
+        listContent = (TextView) rootView.findViewById(R.id.text_listContent);
 
         setHasOptionsMenu(Boolean.TRUE);
 
         /**
          * This fragment is created from the parent fragment with arguments passed to it.
-         * Get the filename of the note that has to be displayed from the arguments.
-         * Display the contents of the note in this fragment.
+         * Get the filename of the list that has to be displayed from the arguments.
+         * Display the contents of the list in this fragment.
          */
         Bundle args = getArguments();
         if (args != null) {
-            filename = args.getString("noteTitle");
-            savedNote = new File(getContext().getFilesDir(), filename);
-            if (savedNote.exists()) {
+            filename = args.getString("listTitle");
+            savedList = new File(getContext().getFilesDir(), filename);
+            if (savedList.exists()) {
                 try {
                     inputStream = getContext().openFileInput(filename);
                     BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
@@ -60,7 +54,7 @@ public class NotesContentFragment extends Fragment {
                     while ((line = input.readLine()) != null){
                         reader.append(line);
                     }
-                    noteContent.setText(reader);
+                    listContent.setText(reader);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -74,15 +68,15 @@ public class NotesContentFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle item selection
         switch (item.getItemId()) {
-            // Both Edit and Delete are handled by the NewNoteActivity (control class)
-            case R.id.action_delete_note:
-                Intent intentDelete = new Intent(getContext(), NewNoteActivity.class);
+            // Both Edit and Delete are handled by the NewListActivity (control class)
+            case R.id.action_delete_list:
+                Intent intentDelete = new Intent(getContext(), NewListActivity.class);
                 intentDelete.putExtra("filename",filename);
                 intentDelete.setAction(intentDelete.ACTION_DELETE);
                 startActivity(intentDelete);
                 return true;
-            case R.id.action_edit_note:
-                Intent intentEdit = new Intent(getContext(), NewNoteActivity.class);
+            case R.id.action_edit_list:
+                Intent intentEdit = new Intent(getContext(), NewListActivity.class);
                 intentEdit.putExtra("filename",filename);
                 intentEdit.setAction(intentEdit.ACTION_EDIT);
                 startActivity(intentEdit);

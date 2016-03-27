@@ -73,7 +73,7 @@ public class NewListActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_save) {
-            final String filenameList = title.getText().toString();
+            String filenameList = title.getText().toString();
             if (filenameList.equals("")){
                 Toast.makeText(this, "Enter title for the list", Toast.LENGTH_SHORT).show();
                 return true;
@@ -93,6 +93,7 @@ public class NewListActivity extends AppCompatActivity {
                 outputStream.write(textBuffer.getBytes());
                 outputStream.close();
                 outputStream = openFileOutput(filename, Context.MODE_APPEND);
+                filenameList += "\n";
                 outputStream.write(filenameList.getBytes());
                 outputStream.close();
                 Toast.makeText(this, "List saved", Toast.LENGTH_SHORT).show();

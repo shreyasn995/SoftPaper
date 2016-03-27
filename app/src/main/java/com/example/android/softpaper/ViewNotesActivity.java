@@ -32,7 +32,8 @@ public class ViewNotesActivity extends AppCompatActivity {
 
     FloatingActionButton fab1;
     FloatingActionButton fab2;
-    int backButtonCount = 0;
+    private int backButtonCount = 0;
+    private int currentTabPosition = 0;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -92,10 +93,12 @@ public class ViewNotesActivity extends AppCompatActivity {
                             case 0:
                                 fab2.hide();
                                 fab1.show();
+                                currentTabPosition = tabPosition;
                                 break;
                             case 1:
                                 fab1.hide();
                                 fab2.show();
+                                currentTabPosition = tabPosition;
                                 break;
 
                             default:
@@ -111,6 +114,18 @@ public class ViewNotesActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_view_notes, menu);
+        if (currentTabPosition == 0) {
+            menu.findItem(R.id.action_edit_list).setVisible(Boolean.FALSE).setEnabled(Boolean.FALSE);
+            menu.findItem(R.id.action_delete_list).setVisible(Boolean.FALSE).setEnabled(Boolean.FALSE);
+            menu.findItem(R.id.action_edit_note).setVisible(Boolean.TRUE).setEnabled(Boolean.TRUE);
+            menu.findItem(R.id.action_delete_note).setVisible(Boolean.TRUE).setEnabled(Boolean.TRUE);
+        }
+        else if (currentTabPosition == 1) {
+            menu.findItem(R.id.action_edit_note).setVisible(Boolean.FALSE).setEnabled(Boolean.FALSE);
+            menu.findItem(R.id.action_delete_note).setVisible(Boolean.FALSE).setEnabled(Boolean.FALSE);
+            menu.findItem(R.id.action_edit_list).setVisible(Boolean.TRUE).setEnabled(Boolean.TRUE);
+            menu.findItem(R.id.action_delete_list).setVisible(Boolean.TRUE).setEnabled(Boolean.TRUE);
+        }
         return true;
     }
 

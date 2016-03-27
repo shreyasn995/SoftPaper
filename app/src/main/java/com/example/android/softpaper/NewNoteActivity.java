@@ -51,11 +51,11 @@ public class NewNoteActivity extends AppCompatActivity {
                 handleSendText(intent); // Handle text being sent
             }
         }
-        //If edit called from view
+        //If edit called from NotesContentFragment
         else if (Intent.ACTION_EDIT.equals(action)) {
             handleEditNote(intent);
         }
-        //If delete called from view
+        //If delete called from NotesContentFragment
         else if (Intent.ACTION_DELETE.equals(action)) {
             handleDeleteNote(intent);
         }
