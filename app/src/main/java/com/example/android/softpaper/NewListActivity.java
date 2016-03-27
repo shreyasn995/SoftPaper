@@ -14,8 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 
 public class NewListActivity extends AppCompatActivity {
 
@@ -31,6 +34,7 @@ public class NewListActivity extends AppCompatActivity {
 
     static final String filename = "savedLists";
     FileOutputStream outputStream;
+    FileInputStream inputStream;
     File listsFile;
     File savedLists;
 
@@ -49,6 +53,18 @@ public class NewListActivity extends AppCompatActivity {
 
         listTextView[noOfTextBox] = list1;
         listCheckBox[noOfTextBox] = box1;
+
+        //Recieve intent from parent fragment to display list content
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        //If edit called from NotesContentFragment
+        if (Intent.ACTION_EDIT.equals(action)) {
+            handleEditList(intent);
+        }
+        //If delete called from NotesContentFragment
+        else if (Intent.ACTION_DELETE.equals(action)) {
+            handleDeleteList(intent);
+        }
     }
 
     @Override
@@ -132,5 +148,54 @@ public class NewListActivity extends AppCompatActivity {
 
         linear.addView(checkBox);
         linear.addView(editText);
+    }
+
+    void handleEditList(Intent intent) {
+        final String filenameReceived = intent.getStringExtra("filename");
+        if (filenameReceived != null) {
+            title.setText(filenameReceived);
+            try {
+                //Read existing note and populate text fields with its contents
+                inputStream = openFileInput(filenameReceived);
+                BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder reader = new StringBuilder();
+                String line;
+                while ((line = input.readLine()) != null){
+                    reader.append(line);
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    void handleDeleteList(Intent intent) {
+        final String filenameReceived = intent.getStringExtra("filename");
+        if (filenameReceived != null) {
+            File fileToDelete = new File(getFilesDir(),filenameReceived);
+            boolean deleted = fileToDelete.delete();
+            if (deleted){ //Remove file name from the list of saved files
+                try{
+                    inputStream = openFileInput(filename);
+                    BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuilder reader = new StringBuilder();
+                    String line;
+                    while ((line = input.readLine()) != null){
+                        if (!line.equals(filenameReceived)){
+                            reader.append(line);
+                            reader.append("\n");
+                        }
+                    }
+                    outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    outputStream.write(reader.toString().getBytes());
+                    outputStream.close();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
+            }
+        }
+        Intent viewNotesIntent = new Intent(this, ViewNotesActivity.class);
+        startActivity(viewNotesIntent);
     }
 }
