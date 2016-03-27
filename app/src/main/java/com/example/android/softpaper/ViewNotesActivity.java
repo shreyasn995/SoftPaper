@@ -1,3 +1,6 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.content.Intent;
@@ -18,6 +21,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Toast;
+
+/**
+ * This activity handles the View part of the app.
+ * It is a tabbed activity. One tab for Notes and another for Checked Lists.
+ * Each tab displays the previously saved contents of either notes or lists.
+ */
 
 public class ViewNotesActivity extends AppCompatActivity {
 
@@ -112,7 +121,7 @@ public class ViewNotesActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //Launch AboutActivity
         if (id == R.id.action_about) {
             Intent launchAboutActivityIntent = new Intent(this, AboutActivity.class);
             startActivity(launchAboutActivityIntent);
@@ -133,7 +142,7 @@ public class ViewNotesActivity extends AppCompatActivity {
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
+     * one of the tabs
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -172,7 +181,8 @@ public class ViewNotesActivity extends AppCompatActivity {
     }
 
     /**
-     * Add comments
+     * The Floating Action Buttons (FAB) within each tab are used to create a new list and a new note.
+     * Launch the respective activity when the respective FAB is clicked.
      */
     public void launchNewNoteActivity (View view){
         Intent launchNewNoteIntent = new Intent(this, NewNoteActivity.class);

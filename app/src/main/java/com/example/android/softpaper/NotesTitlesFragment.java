@@ -1,3 +1,6 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.app.Activity;
@@ -5,6 +8,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+
+/**
+ * This is a nested fragment within the ViewNotesFragment.
+ * It appears to the left of the screen.
+ * It displays the titles of all saved notes.
+ */
 
 public class NotesTitlesFragment extends Fragment {
 
@@ -33,6 +43,9 @@ public class NotesTitlesFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Dynamically add titles to the linear layout within this fragment.
+     */
     void populateTitles(){
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -48,6 +61,7 @@ public class NotesTitlesFragment extends Fragment {
                     textView.setLayoutParams(lparams);
                     textView.setText(line);
                     textView.setClickable(true);
+                    // Send message to parent fragment that the user wishes to see the contents of the note title clicked on.
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view){
@@ -65,6 +79,7 @@ public class NotesTitlesFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        // Display the message below if there are no saved notes yet.
         else {
             TextView textView = new TextView(getContext());
             textView.setLayoutParams(lparams);

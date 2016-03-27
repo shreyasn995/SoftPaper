@@ -1,3 +1,6 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.content.Intent;
@@ -16,6 +19,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
+/**
+ *This is a nested fragment within the ViewNotesFragment.
+ * It appears to the right of the screen.
+ * It displays the contents of the saved notes.
+ */
+
 public class NotesContentFragment extends Fragment implements View.OnClickListener {
 
     TextView noteContent;
@@ -31,6 +40,9 @@ public class NotesContentFragment extends Fragment implements View.OnClickListen
 
         noteContent = (TextView) rootView.findViewById(R.id.text_noteContent);
 
+        // This fragment is created from the parent fragment with arguments.
+        // Get the filename of the note that has to be displayed from the arguments.
+        // Display the contents of the note in this fragment.
         Bundle args = getArguments();
         if (args != null) {
             filename = args.getString("noteTitle");
