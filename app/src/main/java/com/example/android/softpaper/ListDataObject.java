@@ -16,7 +16,7 @@ public class ListDataObject extends DataObject<String[]> {
         this.title = listTitle;
         this.content = listContent;
         this.checkBoxes = listCheckBoxes;
-        this.size = listSize;
+        this.size = listSize + 1;
     }
 
     public ListDataObject(){

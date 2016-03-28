@@ -129,11 +129,11 @@ public class NewListActivity extends AppCompatActivity {
     void handleEditList(Intent intent) {
         final String filenameReceived = intent.getStringExtra("filename") + ".xml";
         if (intent.getStringExtra("filename") != null) {
-            title.setText(filenameReceived);
+            title.setText(intent.getStringExtra("filename"));
             String[] listContent = listFileHandler.loadContent(filenameReceived);
             Boolean[] boxIsChecked = listFileHandler.loadIsChecked(filenameReceived);
 
-            if(boxIsChecked[0]) box1.isChecked();
+            if(boxIsChecked[0]) box1.setChecked(Boolean.TRUE);
             list1.setHint("");
             list1.setText(listContent[0]);
 
@@ -142,7 +142,7 @@ public class NewListActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 CheckBox checkBox = new CheckBox(this);
                 checkBox.setText("");
-                if(boxIsChecked[i]) checkBox.isChecked();
+                if(boxIsChecked[i]) checkBox.setChecked(Boolean.TRUE);
 
                 EditText editText = new EditText(this);
                 editText.setLayoutParams(lparams);

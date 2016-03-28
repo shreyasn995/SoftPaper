@@ -28,10 +28,9 @@ public class ListsTitlesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_lists_titles, container, false);
 
+        listFileHandler = new ListFileHandler(container.getContext()); //Used to perform operations on files that save lists.
         linear = (LinearLayout) rootView.findViewById(R.id.fragmentListTitle);
         populateTitles();
-
-        listFileHandler = new ListFileHandler(container.getContext()); //Used to perform operations on files that save lists.
 
         return rootView;
     }
@@ -43,7 +42,17 @@ public class ListsTitlesFragment extends Fragment {
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        ArrayList<String> noteTitles = listFileHandler.getNoteTitles();
+        ArrayList<String> noteTitles = listFileHandler.getListTitles();
+        // Display the message below if there are no saved notes yet.
+        if (noteTitles.size() == 0){
+            TextView textView = new TextView(getContext());
+            textView.setLayoutParams(lparams);
+            String message = "Nothing to show here.";
+            textView.setText(message);
+            textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
+            linear.addView(textView);
+            return;
+        }
         for (int i=noteTitles.size()-1; i >= 0; i--) {
             final TextView textView = new TextView(getContext());
             textView.setLayoutParams(lparams);
@@ -59,15 +68,6 @@ public class ListsTitlesFragment extends Fragment {
                     getFragmentManager().popBackStack();
                 }
             });
-            textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
-            linear.addView(textView);
-        }
-        // Display the message below if there are no saved notes yet.
-        if (noteTitles.size() == 0) {
-            TextView textView = new TextView(getContext());
-            textView.setLayoutParams(lparams);
-            String message = "Nothing to show here.";
-            textView.setText(message);
             textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
             linear.addView(textView);
         }

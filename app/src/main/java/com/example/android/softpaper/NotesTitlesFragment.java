@@ -51,6 +51,16 @@ public class NotesTitlesFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         ArrayList<String> noteTitles = noteFileHandler.getNoteTitles();
+        // Display the message below if there are no saved notes yet.
+        if (noteTitles.size() == 0){
+            TextView textView = new TextView(getContext());
+            textView.setLayoutParams(lparams);
+            String message = "Nothing to show here.";
+            textView.setText(message);
+            textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
+            linear.addView(textView);
+            return;
+        }
         for (int i=noteTitles.size()-1; i >= 0; i--) {
             final TextView textView = new TextView(getContext());
             textView.setLayoutParams(lparams);
@@ -66,15 +76,6 @@ public class NotesTitlesFragment extends Fragment {
                     getFragmentManager().popBackStack();
                 }
             });
-            textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
-            linear.addView(textView);
-        }
-        // Display the message below if there are no saved notes yet.
-        if (noteTitles.size() == 0) {
-            TextView textView = new TextView(getContext());
-            textView.setLayoutParams(lparams);
-            String message = "Nothing to show here.";
-            textView.setText(message);
             textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
             linear.addView(textView);
         }

@@ -2,12 +2,9 @@ package com.example.android.softpaper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +13,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStreamReader;
+
 
 /**
  * Created by Shreyas on 27/03/2016.
@@ -54,16 +50,19 @@ public class ListsContentFragment extends Fragment {
             filename = args.getString("listTitle") + ".xml";
             String[] listContent = listFileHandler.loadContent(filename);
             Boolean[] boxIsChecked = listFileHandler.loadIsChecked(filename);
-            for(int i=1; i<listContent.length; i++){
+            for(int i=0; i<listContent.length; i++){
+
                 LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 CheckBox checkBox = new CheckBox(getContext());
                 checkBox.setText("");
-                if(boxIsChecked[i]) checkBox.isChecked();
+                if(boxIsChecked[i]) checkBox.setChecked(Boolean.TRUE);
+                checkBox.setClickable(Boolean.FALSE);
 
-                EditText editText = new EditText(getContext());
+                TextView editText = new TextView(getContext());
                 editText.setLayoutParams(lparams);
                 editText.setText(listContent[i]);
+                editText.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
 
                 linear.addView(checkBox);
                 linear.addView(editText);

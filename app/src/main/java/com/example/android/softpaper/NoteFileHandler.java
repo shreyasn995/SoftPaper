@@ -53,12 +53,15 @@ public class NoteFileHandler extends FileHandler<String,NoteDataObject> {
             //Add saved file's name to list of existing files
             //If file already exists and is being saved after editing,
             // check if file already exists before adding to this list
-            inputStream = context.openFileInput(savedNotesTitles);
-            BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
+            fileToPerformAction = new File(context.getFilesDir(),savedNotesTitles);
             Boolean checkIfFileExists = Boolean.FALSE;
-            while ((line = input.readLine()) != null){
-                if (line.equals(filenameNote))checkIfFileExists = Boolean.TRUE;
+            if (fileToPerformAction.exists()){
+                inputStream = context.openFileInput(savedNotesTitles);
+                BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = input.readLine()) != null){
+                    if (line.equals(filenameNote))checkIfFileExists = Boolean.TRUE;
+                }
             }
             if (!checkIfFileExists){ //Add new file name to existing list of file names
                 outputStream = context.openFileOutput(savedNotesTitles, Context.MODE_APPEND);
@@ -101,7 +104,7 @@ public class NoteFileHandler extends FileHandler<String,NoteDataObject> {
             }
         }catch(Exception e){
             e.printStackTrace();
-            return null;
+            return noteTitles;
         }
         return noteTitles;
     }

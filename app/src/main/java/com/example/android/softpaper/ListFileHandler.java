@@ -1,6 +1,8 @@
 package com.example.android.softpaper;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.CheckBox;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,7 +45,8 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
                 StringBuilder reader = new StringBuilder();
                 String line;
                 while ((line = input.readLine()) != null) {
-                    if (!line.equals(fileToDelete)) {
+                    String fileName = line + ".xml";
+                    if (!fileName.equals(fileToDelete)) {
                         reader.append(line);
                         reader.append("\n");
                     }
@@ -74,9 +77,10 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
         try {
             //Make XML tree
             Element[] items = new Element[noOfItems];
-            for(int i=0; i<noOfItems; i++){
-                db = dbf.newDocumentBuilder();
-                Document doc = db.newDocument();
+            db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+            Element root = doc.createElement("ROOT");
+            for(int i=0; i<noOfItems; i++) {
                 items[i] = doc.createElement(ITEM);
 
                 Element e = doc.createElement(TEXT);
@@ -87,24 +91,29 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
                 e.appendChild(doc.createTextNode(Boolean.toString(checkbox[i])));
                 items[i].appendChild(e);
 
-                doc.appendChild(items[i]);
-                //Save the XML  file
-                TransformerFactory transformerFactory = TransformerFactory
-                        .newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(openFileOutput(filenameList, Context.MODE_APPEND));
-                transformer.transform(source, result);
+                root.appendChild(items[i]);
             }
+            doc.appendChild(root);
+                //Save the XML  file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(fileToPerformAction);
+            // StreamResult result = new StreamResult (new File(filenameList));
+            transformer.transform(source, result);
+
             //Add saved file's name to list of existing files
             //If file already exists and is being saved after editing,
             //check if file already exists before adding to this list
-            inputStream = context.openFileInput(savedListsTitles);
-            BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
+            fileToPerformAction = new File(context.getFilesDir(),savedListsTitles);
             Boolean checkIfFileExists = Boolean.FALSE;
-            while ((line = input.readLine()) != null){
-                if (line.equals(listTitle))checkIfFileExists = Boolean.TRUE;
+            if(fileToPerformAction.exists()){
+                inputStream = context.openFileInput(savedListsTitles);
+                BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = input.readLine()) != null){
+                    if (line.equals(listTitle))checkIfFileExists = Boolean.TRUE;
+                }
             }
             if (!checkIfFileExists){ //Add new file name to existing list of file names
                 outputStream = context.openFileOutput(savedListsTitles, Context.MODE_APPEND);
@@ -121,20 +130,22 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
 
     String[] loadContent(String fileToLoad){
         fileToPerformAction = new File(context.getFilesDir(), fileToLoad);
+        //fileToPerformAction = new File(fileToLoad);
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db;
         String[] listContent;
         try {
             db = dbf.newDocumentBuilder();
             Document doc = db.parse(fileToPerformAction);
-            NodeList nodeList = doc.getChildNodes();
-            noOfItems = nodeList.getLength();
+            Node root = doc.getFirstChild();
+            NodeList items = root.getChildNodes();
+            noOfItems = items.getLength();
             listContent = new String[noOfItems];
             for(int i=0; i<noOfItems; i++){
-                Node n = nodeList.item(i);
-                NodeList nl = n.getChildNodes();
-                Node n2 = nl.item(0);
-                listContent[i] = n2.getTextContent();
+                Node item = items.item(i);
+                NodeList itemContents = item.getChildNodes();
+                Node text = itemContents.item(0);
+                listContent[i] = text.getTextContent();
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -151,14 +162,15 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
         try {
             db = dbf.newDocumentBuilder();
             Document doc = db.parse(fileToPerformAction);
-            NodeList nodeList = doc.getChildNodes();
-            noOfItems = nodeList.getLength();
+            Node root = doc.getFirstChild();
+            NodeList items = root.getChildNodes();
+            noOfItems = items.getLength();
             listCheckboxes = new Boolean[noOfItems];
             for(int i=0; i<noOfItems; i++){
-                Node n = nodeList.item(i);
-                NodeList nl = n.getChildNodes();
-                Node n2 = nl.item(1);
-                listCheckboxes[i] = Boolean.valueOf(n2.getTextContent());
+                Node item = items.item(i);
+                NodeList itemContents = item.getChildNodes();
+                Node checkBox = itemContents.item(1);
+                listCheckboxes[i] = Boolean.valueOf(checkBox.getTextContent());
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -167,7 +179,7 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
         return listCheckboxes;
     }
 
-    ArrayList<String> getNoteTitles(){
+    ArrayList<String> getListTitles(){
         ArrayList<String> listTitles = new ArrayList<>();
         try {
             inputStream = context.openFileInput(savedListsTitles);
@@ -178,7 +190,7 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
             }
         }catch(Exception e){
             e.printStackTrace();
-            return null;
+            return listTitles;
         }
         return listTitles;
     }
