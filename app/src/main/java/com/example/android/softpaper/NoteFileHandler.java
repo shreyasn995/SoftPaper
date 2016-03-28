@@ -58,7 +58,7 @@ public class NoteFileHandler extends FileHandler<String,NoteDataObject> {
             String line;
             Boolean checkIfFileExists = Boolean.FALSE;
             while ((line = input.readLine()) != null){
-                if (line.equals(savedListsTitles))checkIfFileExists = Boolean.TRUE;
+                if (line.equals(filenameNote))checkIfFileExists = Boolean.TRUE;
             }
             if (!checkIfFileExists){ //Add new file name to existing list of file names
                 outputStream = context.openFileOutput(savedNotesTitles, Context.MODE_APPEND);

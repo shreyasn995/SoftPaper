@@ -70,8 +70,7 @@ public class NewNoteActivity extends AppCompatActivity {
 
         //save the note
         if (id == R.id.action_save) {
-            //  String filenameNote = title.getText().toString();
-            if (title.getText().equals("")){
+            if (title.getText().toString().equals("")){
                 Toast.makeText(this, "Enter title for the note", Toast.LENGTH_SHORT).show();
                 return true;
             }

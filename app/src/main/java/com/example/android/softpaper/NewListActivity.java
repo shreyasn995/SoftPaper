@@ -28,15 +28,11 @@ public class NewListActivity extends AppCompatActivity {
     FloatingActionButton fab;
     LinearLayout linear;
 
+    ListFileHandler listFileHandler = new ListFileHandler(this); //Used to perform operations of files that save notes.
+
     final TextView[] listTextView = new TextView[25];
     final CheckBox[] listCheckBox = new CheckBox[25];
     int noOfTextBox = 0;
-
-    static final String filename = "savedLists";
-    FileOutputStream outputStream;
-    FileInputStream inputStream;
-    File listsFile;
-    File savedLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +45,6 @@ public class NewListActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.listFab);
 
         linear = (LinearLayout)findViewById(R.id.addToList);
-        savedLists = new File(getFilesDir(), filename);
 
         listTextView[noOfTextBox] = list1;
         listCheckBox[noOfTextBox] = box1;
@@ -89,39 +84,14 @@ public class NewListActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_save) {
-            String filenameList = title.getText().toString();
-            if (filenameList.equals("")){
+            if (title.getText().toString().equals("")){
                 Toast.makeText(this, "Enter title for the list", Toast.LENGTH_SHORT).show();
                 return true;
             }
-            //
-            //
             ListDataObject listDataObject = new ListDataObject(title.getText().toString(), listTextView, listCheckBox, noOfTextBox);
-            //
-            //
-
-            listsFile = new File(getFilesDir(), filenameList);
-            String textBuffer = "";
-
-            for (int i=0; i <= noOfTextBox; i++){
-                textBuffer += listTextView[i].getText().toString();
-                textBuffer += "\n";
-                if (listCheckBox[i].isChecked()) textBuffer += "1"; else textBuffer += "0";
-                textBuffer += "\n";
-            }
-
-            try {
-                outputStream = openFileOutput(filenameList, Context.MODE_PRIVATE);
-                outputStream.write(textBuffer.getBytes());
-                outputStream.close();
-                outputStream = openFileOutput(filename, Context.MODE_APPEND);
-                filenameList += "\n";
-                outputStream.write(filenameList.getBytes());
-                outputStream.close();
-                Toast.makeText(this, "List saved", Toast.LENGTH_SHORT).show();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+            Boolean noteSaved = listFileHandler.saveDataFile(listDataObject);
+            if (noteSaved) Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Error. Note not saved", Toast.LENGTH_SHORT).show();
             Intent viewNotesIntent = new Intent(this, ViewNotesActivity.class);
             startActivity(viewNotesIntent);
             return true;
@@ -157,50 +127,41 @@ public class NewListActivity extends AppCompatActivity {
     }
 
     void handleEditList(Intent intent) {
-        final String filenameReceived = intent.getStringExtra("filename");
-        if (filenameReceived != null) {
+        final String filenameReceived = intent.getStringExtra("filename") + ".xml";
+        if (intent.getStringExtra("filename") != null) {
             title.setText(filenameReceived);
-            try {
-                //Read existing note and populate text fields with its contents
-                inputStream = openFileInput(filenameReceived);
-                BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder reader = new StringBuilder();
-                String line;
-                while ((line = input.readLine()) != null){
-                    reader.append(line);
-                }
-            }catch(Exception e){
-                e.printStackTrace();
+            String[] listContent = listFileHandler.loadContent(filenameReceived);
+            Boolean[] boxIsChecked = listFileHandler.loadIsChecked(filenameReceived);
+
+            if(boxIsChecked[0]) box1.isChecked();
+            list1.setHint("");
+            list1.setText(listContent[0]);
+
+            for(int i=1; i<listContent.length; i++){
+                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                CheckBox checkBox = new CheckBox(this);
+                checkBox.setText("");
+                if(boxIsChecked[i]) checkBox.isChecked();
+
+                EditText editText = new EditText(this);
+                editText.setLayoutParams(lparams);
+                editText.setText(listContent[i]);
+
+                listCheckBox[i] = checkBox;
+                listTextView[i] = editText;
+                linear.addView(checkBox);
+                linear.addView(editText);
             }
+            noOfTextBox = listContent.length - 1;
         }
     }
 
     void handleDeleteList(Intent intent) {
         final String filenameReceived = intent.getStringExtra("filename");
-        if (filenameReceived != null) {
-            File fileToDelete = new File(getFilesDir(),filenameReceived);
-            boolean deleted = fileToDelete.delete();
-            if (deleted){ //Remove file name from the list of saved files
-                try{
-                    inputStream = openFileInput(filename);
-                    BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder reader = new StringBuilder();
-                    String line;
-                    while ((line = input.readLine()) != null){
-                        if (!line.equals(filenameReceived)){
-                            reader.append(line);
-                            reader.append("\n");
-                        }
-                    }
-                    outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                    outputStream.write(reader.toString().getBytes());
-                    outputStream.close();
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-                Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
-            }
-        }
+        Boolean fileDeleted = listFileHandler.deleteDataFile(filenameReceived);
+        if (fileDeleted) Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(this, "Error. Note not deleted", Toast.LENGTH_SHORT).show();
         Intent viewNotesIntent = new Intent(this, ViewNotesActivity.class);
         startActivity(viewNotesIntent);
     }

@@ -42,4 +42,8 @@ public class ListDataObject extends DataObject<String[]> {
         }
         return  isChecked;
     }
+
+    public int getSize(){
+        return size;
+    }
 }
