@@ -123,5 +123,4 @@ public class NoteFileHandler extends FileHandler<String,NoteDataObject> {
     public NoteFileHandler(Context context){
         this.context = context;
     }
-
 }
