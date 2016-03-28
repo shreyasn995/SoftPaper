@@ -94,6 +94,12 @@ public class NewListActivity extends AppCompatActivity {
                 Toast.makeText(this, "Enter title for the list", Toast.LENGTH_SHORT).show();
                 return true;
             }
+            //
+            //
+            ListDataObject listDataObject = new ListDataObject(title.getText().toString(), listTextView, listCheckBox, noOfTextBox);
+            //
+            //
+
             listsFile = new File(getFilesDir(), filenameList);
             String textBuffer = "";
 

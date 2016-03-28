@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * This is a nested fragment within the ViewNotesFragment.
@@ -28,15 +29,14 @@ import java.io.InputStreamReader;
 
 public class NotesTitlesFragment extends Fragment {
 
-    static final String filename = "savedNotes";
-    FileInputStream inputStream;
-    File savedNotes;
     LinearLayout linear;
+    NoteFileHandler noteFileHandler;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notes_titles, container, false);
 
+        noteFileHandler = new NoteFileHandler(container.getContext()); //Used to perform operations of files that save notes.
         linear = (LinearLayout) rootView.findViewById(R.id.fragmentNoteTitle);
         populateTitles();
 
@@ -50,37 +50,27 @@ public class NotesTitlesFragment extends Fragment {
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        savedNotes = new File(getContext().getFilesDir(), filename);
-        if (savedNotes.exists()) {
-            try {
-                inputStream = getContext().openFileInput(filename);
-                BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                while ((line = input.readLine()) != null){
-                    final TextView textView = new TextView(getContext());
-                    textView.setLayoutParams(lparams);
-                    textView.setText(line);
-                    textView.setClickable(true);
-                    // Send message to parent fragment that the user wishes to see the contents of the note title clicked on.
-                    textView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view){
-                            Intent intent = new Intent();
-                            intent.putExtra("message", textView.getText().toString());
-                            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                            getFragmentManager().popBackStack();
-                        }
-                    });
-                    textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
-                    linear.addView(textView);
+        ArrayList<String> noteTitles = noteFileHandler.getNoteTitles();
+        for (int i=noteTitles.size()-1; i >= 0; i--) {
+            final TextView textView = new TextView(getContext());
+            textView.setLayoutParams(lparams);
+            textView.setText(noteTitles.get(i));
+            textView.setClickable(true);
+            // Send message to parent fragment that the user wishes to see the contents of the note title clicked on.
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view){
+                    Intent intent = new Intent();
+                    intent.putExtra("message", textView.getText().toString());
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                    getFragmentManager().popBackStack();
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            });
+            textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
+            linear.addView(textView);
         }
         // Display the message below if there are no saved notes yet.
-        else {
+        if (noteTitles.size() == 0) {
             TextView textView = new TextView(getContext());
             textView.setLayoutParams(lparams);
             String message = "Nothing to show here.";

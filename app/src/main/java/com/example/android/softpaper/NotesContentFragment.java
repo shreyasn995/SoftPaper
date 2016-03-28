@@ -30,15 +30,15 @@ import java.io.InputStreamReader;
 public class NotesContentFragment extends Fragment {
 
     TextView noteContent;
-    FileInputStream inputStream;
-    File savedNote;
     String filename;
+    NoteFileHandler noteFileHandler;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notes_content, container, false);
 
         noteContent = (TextView) rootView.findViewById(R.id.text_noteContent);
+        noteFileHandler = new NoteFileHandler(container.getContext()); //Used to perform operations of files that save notes.
 
         setHasOptionsMenu(Boolean.TRUE);
 
@@ -50,21 +50,7 @@ public class NotesContentFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             filename = args.getString("noteTitle");
-            savedNote = new File(getContext().getFilesDir(), filename);
-            if (savedNote.exists()) {
-                try {
-                    inputStream = getContext().openFileInput(filename);
-                    BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder reader = new StringBuilder();
-                    String line;
-                    while ((line = input.readLine()) != null){
-                        reader.append(line);
-                    }
-                    noteContent.setText(reader);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            noteContent.setText(noteFileHandler.loadContent(filename));
         }
         //ActivityCompat.invalidateOptionsMenu(this.getActivity());
         return rootView;
@@ -72,7 +58,7 @@ public class NotesContentFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle item selection
+        // handle item selection from AppBar menu
         switch (item.getItemId()) {
             // Both Edit and Delete are handled by the NewNoteActivity (control class)
             case R.id.action_delete_note:

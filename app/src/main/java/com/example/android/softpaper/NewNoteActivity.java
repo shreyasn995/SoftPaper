@@ -1,30 +1,18 @@
 package com.example.android.softpaper;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-
 public class NewNoteActivity extends AppCompatActivity {
 
     EditText title;
     EditText note;
-    static final String filename = "savedNotes";
-    FileOutputStream outputStream;
-    FileInputStream inputStream;
-    File notesFile;
-    File savedNotes; //List of existing files
+    NoteFileHandler noteFileHandler = new NoteFileHandler(this); //Used to perform operations of files that save notes.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +21,6 @@ public class NewNoteActivity extends AppCompatActivity {
 
         title = (EditText) findViewById(R.id.edit_newListTitle);
         note = (EditText) findViewById(R.id.edit_newNoteNote);
-
-        savedNotes = new File(getFilesDir(), filename);
 
         /**
          * Get intent, action and MIME type.
@@ -84,38 +70,15 @@ public class NewNoteActivity extends AppCompatActivity {
 
         //save the note
         if (id == R.id.action_save) {
-            String filenameNote = title.getText().toString();
-            if (filenameNote.equals("")){
+            //  String filenameNote = title.getText().toString();
+            if (title.getText().equals("")){
                 Toast.makeText(this, "Enter title for the note", Toast.LENGTH_SHORT).show();
                 return true;
             }
-            notesFile = new File(getFilesDir(), filenameNote);
-            String textBuffer = note.getText().toString();
-            try {
-                outputStream = openFileOutput(filenameNote, Context.MODE_PRIVATE);
-                outputStream.write(textBuffer.getBytes());
-                outputStream.close();
-
-                //Add saved file's name to list of existing files
-                //If file already exists and is being saved after editing,
-                // check if file already exists before adding to this list
-                inputStream = openFileInput(filename);
-                BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                Boolean checkIfFileExists = Boolean.FALSE;
-                while ((line = input.readLine()) != null){
-                    if (line.equals(filenameNote))checkIfFileExists = Boolean.TRUE;
-                }
-                if (!checkIfFileExists){ //Add new file name to existing list of file names
-                    outputStream = openFileOutput(filename, Context.MODE_APPEND);
-                    filenameNote += "\n";
-                    outputStream.write(filenameNote.getBytes());
-                    outputStream.close();
-                }
-                Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+            NoteDataObject noteDataObject = new NoteDataObject(title.getText().toString(), note);
+            Boolean noteSaved = noteFileHandler.saveDataFile(noteDataObject);
+            if (noteSaved) Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Error. Note not saved", Toast.LENGTH_SHORT).show();
             Intent viewNotesIntent = new Intent(this, ViewNotesActivity.class);
             startActivity(viewNotesIntent);
             return true;
@@ -127,9 +90,10 @@ public class NewNoteActivity extends AppCompatActivity {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item); // If none of the above. Default case.
     }
 
+    //Handle text shared from outside sources such as Wikipedia or Facebook
     void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
@@ -138,53 +102,21 @@ public class NewNoteActivity extends AppCompatActivity {
         }
     }
 
+    //Populate text fields with previously saved contents
     void handleEditNote(Intent intent){
         final String filenameReceived = intent.getStringExtra("filename");
         if (filenameReceived != null) {
             title.setText(filenameReceived);
-            try {
-                //Read existing note and populate text fields with its contents
-                inputStream = openFileInput(filenameReceived);
-                BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder reader = new StringBuilder();
-                String line;
-                while ((line = input.readLine()) != null){
-                    reader.append(line);
-                }
-                note.setText(reader);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
+            note.setText(noteFileHandler.loadContent(filenameReceived));
         }
     }
 
     //Delete note file and return to view activity
     void handleDeleteNote(Intent intent){
         final String filenameReceived = intent.getStringExtra("filename");
-        if (filenameReceived != null) {
-            File fileToDelete = new File(getFilesDir(),filenameReceived);
-            boolean deleted = fileToDelete.delete();
-            if (deleted){ //Remove file name from the list of saved files
-                try{
-                    inputStream = openFileInput(filename);
-                    BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder reader = new StringBuilder();
-                    String line;
-                    while ((line = input.readLine()) != null){
-                        if (!line.equals(filenameReceived)){
-                            reader.append(line);
-                            reader.append("\n");
-                        }
-                    }
-                    outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                    outputStream.write(reader.toString().getBytes());
-                    outputStream.close();
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-                Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
-            }
-        }
+        Boolean fileDeleted = noteFileHandler.deleteDataFile(filenameReceived);
+        if (fileDeleted) Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(this, "Error. Note not deleted", Toast.LENGTH_SHORT).show();
         Intent viewNotesIntent = new Intent(this, ViewNotesActivity.class);
         startActivity(viewNotesIntent);
     }
