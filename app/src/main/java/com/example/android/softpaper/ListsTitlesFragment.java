@@ -14,16 +14,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * Created by Shreyas on 27/03/2016.
  */
 public class ListsTitlesFragment extends Fragment {
 
-    static final String filename = "savedLists";
-    FileInputStream inputStream;
-    File savedLists;
     LinearLayout linear;
+    ListFileHandler listFileHandler;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,6 +30,8 @@ public class ListsTitlesFragment extends Fragment {
 
         linear = (LinearLayout) rootView.findViewById(R.id.fragmentListTitle);
         populateTitles();
+
+        listFileHandler = new ListFileHandler(container.getContext()); //Used to perform operations on files that save lists.
 
         return rootView;
     }
@@ -42,37 +43,27 @@ public class ListsTitlesFragment extends Fragment {
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        savedLists = new File(getContext().getFilesDir(), filename);
-        if (savedLists.exists()) {
-            try {
-                inputStream = getContext().openFileInput(filename);
-                BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                while ((line = input.readLine()) != null){
-                    final TextView textView = new TextView(getContext());
-                    textView.setLayoutParams(lparams);
-                    textView.setText(line);
-                    textView.setClickable(true);
-                    // Send message to parent fragment that the user wishes to see the contents of the list title clicked on.
-                    textView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view){
-                            Intent intent = new Intent();
-                            intent.putExtra("message", textView.getText().toString());
-                            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                            getFragmentManager().popBackStack();
-                        }
-                    });
-                    textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
-                    linear.addView(textView);
+        ArrayList<String> noteTitles = listFileHandler.getNoteTitles();
+        for (int i=noteTitles.size()-1; i >= 0; i--) {
+            final TextView textView = new TextView(getContext());
+            textView.setLayoutParams(lparams);
+            textView.setText(noteTitles.get(i));
+            textView.setClickable(true);
+            // Send message to parent fragment that the user wishes to see the contents of the note title clicked on.
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view){
+                    Intent intent = new Intent();
+                    intent.putExtra("message", textView.getText().toString());
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                    getFragmentManager().popBackStack();
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            });
+            textView.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
+            linear.addView(textView);
         }
-        // Display the message below if there are no saved lists yet.
-        else {
+        // Display the message below if there are no saved notes yet.
+        if (noteTitles.size() == 0) {
             TextView textView = new TextView(getContext());
             textView.setLayoutParams(lparams);
             String message = "Nothing to show here.";

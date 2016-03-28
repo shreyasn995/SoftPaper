@@ -158,7 +158,7 @@ public class NewListActivity extends AppCompatActivity {
     }
 
     void handleDeleteList(Intent intent) {
-        final String filenameReceived = intent.getStringExtra("filename");
+        final String filenameReceived = intent.getStringExtra("filename") + ".xml";
         Boolean fileDeleted = listFileHandler.deleteDataFile(filenameReceived);
         if (fileDeleted) Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
         else Toast.makeText(this, "Error. Note not deleted", Toast.LENGTH_SHORT).show();

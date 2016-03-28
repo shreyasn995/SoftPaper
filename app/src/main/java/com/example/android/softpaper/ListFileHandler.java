@@ -98,7 +98,7 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
             }
             //Add saved file's name to list of existing files
             //If file already exists and is being saved after editing,
-            // check if file already exists before adding to this list
+            //check if file already exists before adding to this list
             inputStream = context.openFileInput(savedListsTitles);
             BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
             String line;

@@ -11,6 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -23,16 +26,20 @@ import java.io.InputStreamReader;
  */
 public class ListsContentFragment extends Fragment {
 
-    TextView listContent;
     FileInputStream inputStream;
     File savedList;
     String filename;
+    String listTitle;
+    ListFileHandler listFileHandler;
+    LinearLayout linear;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_lists_content, container, false);
 
-        listContent = (TextView) rootView.findViewById(R.id.text_listContent);
+        linear = (LinearLayout) rootView.findViewById(R.id.list_content_layout);
+
+        listFileHandler = new ListFileHandler(container.getContext()); //Used to perform operations on files that save lists.
 
         setHasOptionsMenu(Boolean.TRUE);
 
@@ -43,24 +50,25 @@ public class ListsContentFragment extends Fragment {
          */
         Bundle args = getArguments();
         if (args != null) {
-            filename = args.getString("listTitle");
-            savedList = new File(getContext().getFilesDir(), filename);
-            if (savedList.exists()) {
-                try {
-                    inputStream = getContext().openFileInput(filename);
-                    BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder reader = new StringBuilder();
-                    String line;
-                    while ((line = input.readLine()) != null){
-                        reader.append(line);
-                    }
-                    listContent.setText(reader);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            listTitle = args.getString("listTitle");
+            filename = args.getString("listTitle") + ".xml";
+            String[] listContent = listFileHandler.loadContent(filename);
+            Boolean[] boxIsChecked = listFileHandler.loadIsChecked(filename);
+            for(int i=1; i<listContent.length; i++){
+                LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                CheckBox checkBox = new CheckBox(getContext());
+                checkBox.setText("");
+                if(boxIsChecked[i]) checkBox.isChecked();
+
+                EditText editText = new EditText(getContext());
+                editText.setLayoutParams(lparams);
+                editText.setText(listContent[i]);
+
+                linear.addView(checkBox);
+                linear.addView(editText);
             }
         }
-        //ActivityCompat.invalidateOptionsMenu(this.getActivity());
         return rootView;
     }
 
@@ -71,13 +79,13 @@ public class ListsContentFragment extends Fragment {
             // Both Edit and Delete are handled by the NewListActivity (control class)
             case R.id.action_delete_list:
                 Intent intentDelete = new Intent(getContext(), NewListActivity.class);
-                intentDelete.putExtra("filename",filename);
+                intentDelete.putExtra("filename",listTitle);
                 intentDelete.setAction(intentDelete.ACTION_DELETE);
                 startActivity(intentDelete);
                 return true;
             case R.id.action_edit_list:
                 Intent intentEdit = new Intent(getContext(), NewListActivity.class);
-                intentEdit.putExtra("filename",filename);
+                intentEdit.putExtra("filename",listTitle);
                 intentEdit.setAction(intentEdit.ACTION_EDIT);
                 startActivity(intentEdit);
                 return true;

@@ -36,7 +36,7 @@ public class NotesTitlesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notes_titles, container, false);
 
-        noteFileHandler = new NoteFileHandler(container.getContext()); //Used to perform operations of files that save notes.
+        noteFileHandler = new NoteFileHandler(container.getContext()); //Used to perform operations on files that save notes.
         linear = (LinearLayout) rootView.findViewById(R.id.fragmentNoteTitle);
         populateTitles();
 
