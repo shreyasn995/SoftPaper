@@ -147,14 +147,6 @@ public class ViewNotesActivity extends AppCompatActivity {
     }
 
 
-    /*public static class ViewListsFragment extends Fragment {
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_view_lists, container, false);
-            return rootView;
-        }
-    }
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the tabs

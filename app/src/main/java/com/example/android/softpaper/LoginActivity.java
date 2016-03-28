@@ -1,3 +1,6 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.content.Context;
@@ -14,6 +17,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
+
+/**
+ * This is the first screen a user sees. It prompts the user to  set a password the first time.
+ * The user will enter the password to access the app.
+ */
 
 public class LoginActivity extends AppCompatActivity {
 

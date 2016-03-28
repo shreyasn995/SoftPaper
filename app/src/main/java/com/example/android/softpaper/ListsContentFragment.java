@@ -1,15 +1,16 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,12 +19,13 @@ import java.io.FileInputStream;
 
 
 /**
- * Created by Shreyas on 27/03/2016.
+ * This is a child fragment of the ViewListsFragment.
+ * This fragment appears on the right of the screen.
+ * This fragment shows the contents of the list when a user clicks on its title on the left of the screen.
+ * It also handles calls fron the Edit and Delete buttons on the AppBar.
  */
 public class ListsContentFragment extends Fragment {
 
-    FileInputStream inputStream;
-    File savedList;
     String filename;
     String listTitle;
     ListFileHandler listFileHandler;
@@ -73,7 +75,7 @@ public class ListsContentFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle item selection
+        // handle item selection from the AppBar
         switch (item.getItemId()) {
             // Both Edit and Delete are handled by the NewListActivity (control class)
             case R.id.action_delete_list:

@@ -1,3 +1,6 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.content.Context;
@@ -8,12 +11,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 /**
- * Created by Shreyas on 28/03/2016.
+ * This is ab abstract class. The File Handler classes are facades.
+ * They keep the complexities of handling files hidden from the rest of the app.
+ * NoteFileHandler and ListFileHandler are the two classes derived from this class.
+ * They provide methods to Save, Delete and retrieve contents from files.
  */
 abstract class FileHandler<T,U> extends AppCompatActivity{
 
-    final static String savedNotesTitles = "savedNotes";
-    final static String savedListsTitles = "savedLists";
+    final static String savedNotesTitles = "savedNotes";//Mater File with the titles of all saved Notes.
+    final static String savedListsTitles = "savedLists";////Mater File with the titles of all saved Lists.
 
     FileOutputStream outputStream;
     FileInputStream inputStream;

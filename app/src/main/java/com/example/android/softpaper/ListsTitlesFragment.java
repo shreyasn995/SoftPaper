@@ -1,3 +1,6 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.app.Activity;
@@ -10,14 +13,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- * Created by Shreyas on 27/03/2016.
+ * This is a child fragment of the ViewListsFragment.
+ * This fragment appears on the left of the screen.
+ * This fragment shows all the saved titles of lists. The titles are clickable.
+ * When the user clicks on a title, the relevant list content is shown on the right of the screen.
  */
 public class ListsTitlesFragment extends Fragment {
 

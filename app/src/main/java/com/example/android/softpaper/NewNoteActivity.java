@@ -1,3 +1,6 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.content.Intent;
@@ -7,6 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
+
+/**
+ * This is the control class that deals with Notes.
+ */
 
 public class NewNoteActivity extends AppCompatActivity {
 
@@ -92,7 +99,7 @@ public class NewNoteActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item); // If none of the above. Default case.
     }
 
-    //Handle text shared from outside sources such as Wikipedia or Facebook
+    //Handle text shared from outside sources such as Wikipedia or Facebook.
     void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {

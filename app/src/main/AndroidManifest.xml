@@ -18,7 +18,8 @@
         <activity
             android:name=".ViewNotesActivity"
             android:label="@string/title_activity_view_notes"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".NewListActivity"
             android:label="@string/title_activity_new_list"

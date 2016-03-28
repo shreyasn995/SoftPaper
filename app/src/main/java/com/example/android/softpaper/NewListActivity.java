@@ -1,6 +1,8 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
+/**
+ * This is the control class that deals with Lists.
+ */
 
 public class NewListActivity extends AppCompatActivity {
 
@@ -30,6 +30,7 @@ public class NewListActivity extends AppCompatActivity {
 
     ListFileHandler listFileHandler = new ListFileHandler(this); //Used to perform operations of files that save notes.
 
+    //Number of items a user can add is limited to 25.
     final TextView[] listTextView = new TextView[25];
     final CheckBox[] listCheckBox = new CheckBox[25];
     int noOfTextBox = 0;
@@ -71,12 +72,9 @@ public class NewListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // Handle action bar item clicks here.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
             Intent launchAboutActivityIntent = new Intent(this, AboutActivity.class);
             startActivity(launchAboutActivityIntent);
@@ -105,6 +103,7 @@ public class NewListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //The floating action button dynamically adds more EditTexts and Buttons.
     public void addToList(View view){
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -126,6 +125,7 @@ public class NewListActivity extends AppCompatActivity {
         linear.addView(editText);
     }
 
+    //Populate text fields and buttons with previously saved contents
     void handleEditList(Intent intent) {
         final String filenameReceived = intent.getStringExtra("filename") + ".xml";
         if (intent.getStringExtra("filename") != null) {
@@ -157,6 +157,7 @@ public class NewListActivity extends AppCompatActivity {
         }
     }
 
+    //Delete list file and return to view activity
     void handleDeleteList(Intent intent) {
         final String filenameReceived = intent.getStringExtra("filename") + ".xml";
         Boolean fileDeleted = listFileHandler.deleteDataFile(filenameReceived);

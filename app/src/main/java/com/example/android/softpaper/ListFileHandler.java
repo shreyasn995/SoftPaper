@@ -1,8 +1,9 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.CheckBox;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,7 +23,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Created by Shreyas on 28/03/2016.
+ * This class provides methods for all required file operations on Lists.
+ * Lists are stored in XML documents.
+ * Each list is stored as separate document.
+ * The document name will be the title of the list.
  */
 public class ListFileHandler extends FileHandler<String[],ListDataObject>{
 
@@ -33,6 +37,7 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
     Boolean[] checkbox;
     int noOfItems;
 
+    //Delete a given List file
     boolean deleteDataFile(String fileToDelete){
         if (fileToDelete == null) return Boolean.FALSE;
         fileToPerformAction = new File(context.getFilesDir(),fileToDelete);
@@ -63,6 +68,7 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
         else return deleted;
     }
 
+    //Save a List Object in a XML file.
     boolean saveDataFile(ListDataObject listDataObject){
         if (listDataObject == null) return Boolean.FALSE;
         text = listDataObject.getContent();
@@ -94,12 +100,11 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
                 root.appendChild(items[i]);
             }
             doc.appendChild(root);
-                //Save the XML  file
+            //Save the XML  file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(fileToPerformAction);
-            // StreamResult result = new StreamResult (new File(filenameList));
             transformer.transform(source, result);
 
             //Add saved file's name to list of existing files
@@ -128,12 +133,13 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
         }
     }
 
+    //Return an array containing the TextView elements of a saved list.
     String[] loadContent(String fileToLoad){
         fileToPerformAction = new File(context.getFilesDir(), fileToLoad);
-        //fileToPerformAction = new File(fileToLoad);
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db;
         String[] listContent;
+        //Peel apart the nodes till you get the TextView.
         try {
             db = dbf.newDocumentBuilder();
             Document doc = db.parse(fileToPerformAction);
@@ -154,11 +160,13 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
         return listContent;
     }
 
+    //Return an array that says which of the CheckBoxes in a list are ticked.
     Boolean[] loadIsChecked(String fileToLoad){
         fileToPerformAction = new File(context.getFilesDir(), fileToLoad);
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db;
         Boolean[] listCheckboxes;
+        //Peel apart the nodes till you get the boolean indicating if CheckBox is ticked.
         try {
             db = dbf.newDocumentBuilder();
             Document doc = db.parse(fileToPerformAction);
@@ -179,6 +187,7 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
         return listCheckboxes;
     }
 
+    //Returns the list of all the saved titles of the lists.
     ArrayList<String> getListTitles(){
         ArrayList<String> listTitles = new ArrayList<>();
         try {
@@ -195,6 +204,7 @@ public class ListFileHandler extends FileHandler<String[],ListDataObject>{
         return listTitles;
     }
 
+    //Constructor
     public ListFileHandler(Context context){
         this.context = context;
     }

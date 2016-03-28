@@ -1,3 +1,6 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.app.Activity;
@@ -7,6 +10,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+/**
+ * ViewListsFragment is a fragment within ViewNotesActivity. It houses other fragments that displays saved lists.
+ * This fragment has no UI.
+ * It houses two child fragments: ListsTitlesFragment (to display the titles of saved notes) and ListsContentFragment (to display notes content).
+ * ListsContentFragment is updated dynamically depending on the title the user selects on the ListsTitleFragment.
+ */
 
 public class ViewListsFragment extends Fragment {
     Boolean listsContentFragmentActive = Boolean.FALSE;

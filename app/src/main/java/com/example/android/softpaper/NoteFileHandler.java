@@ -1,3 +1,6 @@
+/**
+ * Shreyas Nagarajappa 2016, The Australian National University
+ */
 package com.example.android.softpaper;
 
 import android.content.Context;
@@ -8,10 +11,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- * Created by Shreyas on 28/03/2016.
+ * This class provides methods for all required file operations on Notes.
+ * Notes are stored as file documents.
+ * Each note is stored as separate document.
+ * The document name will be the title of the note.
  */
 public class NoteFileHandler extends FileHandler<String,NoteDataObject> {
 
+    //Delete a given List file
     boolean deleteDataFile(String fileToDelete){
         if (fileToDelete == null) return Boolean.FALSE;
         fileToPerformAction = new File(context.getFilesDir(),fileToDelete);
@@ -41,6 +48,7 @@ public class NoteFileHandler extends FileHandler<String,NoteDataObject> {
         else return deleted;
     }
 
+    //Save object of type Note to a file.
     boolean saveDataFile(NoteDataObject noteDataObject){
         if (noteDataObject == null) return Boolean.FALSE;
         String writeBuffer = noteDataObject.getContent();
@@ -76,6 +84,7 @@ public class NoteFileHandler extends FileHandler<String,NoteDataObject> {
         }
     }
 
+    //Return content of note previously saved.
     String loadContent(String fileToLoad){
         try {
             //Read existing note and populate text fields with its contents
@@ -93,6 +102,7 @@ public class NoteFileHandler extends FileHandler<String,NoteDataObject> {
         }
     }
 
+    //Returns the list of all the saved titles of the notes.
     ArrayList<String> getNoteTitles(){
         ArrayList<String> noteTitles = new ArrayList<>();
         try {
@@ -109,6 +119,7 @@ public class NoteFileHandler extends FileHandler<String,NoteDataObject> {
         return noteTitles;
     }
 
+    //Constructor.
     public NoteFileHandler(Context context){
         this.context = context;
     }
