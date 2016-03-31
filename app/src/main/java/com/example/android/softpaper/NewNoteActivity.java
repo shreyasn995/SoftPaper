@@ -8,8 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * This is the control class that deals with Notes.
@@ -125,5 +130,13 @@ public class NewNoteActivity extends AppCompatActivity {
         else Toast.makeText(this, "Error. Note not deleted", Toast.LENGTH_SHORT).show();
         Intent viewNotesIntent = new Intent(this, ViewNotesActivity.class);
         startActivity(viewNotesIntent);
+    }
+
+    public void setDate(View view){
+        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+        Calendar calobj = Calendar.getInstance();
+        String currentNoteText = note.getText().toString();
+        currentNoteText += " " + calobj.getTime().toString();
+        note.setText(currentNoteText);
     }
 }
